@@ -10,6 +10,29 @@ class ToDoListViewController: UITableViewController {
 
     }
 
+    
+    @IBAction func addBarBtnAction(_ sender: UIBarButtonItem) {
+        var textField = UITextField()
+
+            let alert = UIAlertController(title: "Add new Todey item", message: "", preferredStyle: .alert)
+
+            let action = UIAlertAction(title: "add item", style: .default) { _ in
+                print("success")
+                if let newItem = textField.text, !newItem.isEmpty {
+                    self.array.append(newItem)
+                    self.tableView.reloadData()
+                }
+            }
+
+            alert.addTextField { (alertTextField) in
+                textField = alertTextField
+                textField.placeholder = "Create new Item"
+                print(alertTextField.text)
+            }
+            alert.addAction(action)
+            present(alert, animated: true, completion: nil)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return array.count
     }
