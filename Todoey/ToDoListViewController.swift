@@ -4,10 +4,15 @@ import UIKit
 class ToDoListViewController: UITableViewController {
 
     var array = ["ajay", "aman", "sachin", "pradeep"]
+    var defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let itemsArray = defaults.array(forKey: "TodoListKey") as? [String] {
+            array = itemsArray
+        }
+        
     }
 
     
@@ -21,6 +26,7 @@ class ToDoListViewController: UITableViewController {
                 if let newItem = textField.text, !newItem.isEmpty {
                     self.array.append(newItem)
                     self.tableView.reloadData()
+                    self.defaults.set(self.array, forKey: "TodoListKey")
                 }
             }
 
