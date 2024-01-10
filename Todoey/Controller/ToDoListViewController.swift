@@ -4,6 +4,7 @@ import UIKit
 class ToDoListViewController: UITableViewController {
 
     var array = ["ajay", "aman", "sachin", "pradeep"]
+    var itemArray = [Item]()
     var defaults = UserDefaults.standard
     
     override func viewDidLoad() {
@@ -13,6 +14,18 @@ class ToDoListViewController: UITableViewController {
             array = itemsArray
         }
         
+        let newItem = Item()
+        newItem.title = "ajay"
+        newItem.done = true
+        itemArray.append(newItem)
+        
+        let newItem2 = Item()
+        newItem2.title = "aman"
+        itemArray.append(newItem2)
+        
+        let newItem3 = Item()
+        newItem3.title = "sachin"
+        itemArray.append(newItem3)
     }
 
     
@@ -40,22 +53,32 @@ class ToDoListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+        return itemArray.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = array[indexPath.row]
+        
+        let item = itemArray[indexPath.row]
+        
+        cell.textLabel?.text = item.title
+        
+        cell.accessoryType = item.done ? .checkmark : .none
+        
         return cell
     }
  
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           if  tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-               tableView.cellForRow(at: indexPath)?.accessoryType = .none
-           } else {
-               tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-           }
+        
+        
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+    
+        
+        tableView.reloadData()
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+     
        }
     
 }
